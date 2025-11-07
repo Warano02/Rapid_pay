@@ -7,7 +7,7 @@ const paiementSchema = new mongoose.Schema(
         amount: { type: Number },
         token: { type: String },// transaction ID send by the fapshi API
         api_response_id: { type: String },
-        status: { type: String },// CREATED | PENDING | FAILED | SUCCESS
+        status: { type: String },// CREATED | PENDING | FAILED | SUCCESSFULL
     },
     { timestamps: true }
 );

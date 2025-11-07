@@ -33,6 +33,22 @@ class FapshiInstance {
         return { error: false, link }
     }
 
+    async verifyPayments() {
+        try {
+            const pendingPayments = await P.find({
+                $or: [{ status: "CREATED" }, { status: "PENDING" }]
+            })
+            if (!pendingPayments.length) return
+            for (const payment of pendingPayments) {
+                const status = await fapshi.verifyPayments(payment?.token)
+                await P.updateOne({ idT: payment.idT }, { $set: { status: status.status } })
+            }
+        } catch (e) {
+            console.log("Error occured whyle trying to verify payment status!", e)
+        }
+        this.verifyPayments()
+    }
+
 
 }
 module.exports = new FapshiInstance()
